@@ -1,0 +1,69 @@
+No of entries - 614, Columns - 13
+
+Columns/ Features :-
+
+Loan_ID              
+Gender               - Male/ Female
+Married              - (Yes/No)
+Dependents           - 0, 1, 2, 3+
+Education            - Graduate/ Not Graduate
+Self_Employed        - (Yes/No)
+ApplicantIncome      
+CoapplicantIncome    
+LoanAmount           - Loan amount in thousands
+Loan_Amount_Term     - Term of loan in months
+Credit_History       
+Property_Area        - Urban/ Semiurban/ Rural
+Loan_Status          - (Y/N)
+
+Target: Loan_Status (Categorical)
+
+Continuous :- 
+    ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term
+
+Categorical :-
+    Nominal :- Gender, Married, Self_Employed, Credit_History, Loan_Status(Target)
+    Ordinal :- Dependents, Property_Area, Education
+
+Univariate Analysis :- 
+
+    This is intended to understand each variable/feature independently. This is usually done using plots,
+    for 
+        a) Continuous :- Histograms, boxplots
+        b) Categorical :- count plot
+    
+    Continuous :- 
+
+        1)ApplicantIncome :- 0 nulls, Right Skewed, Lot outliners
+        2)CoapplicantIncome :- 0 nulls, Right Skewed, some outliners
+        3)LoanAmount :- 22 nulls,quite well distributed
+        4)Loan_Amount_Term :- 14 nulls, single high value (around 380)
+    
+    Categorical :-
+        
+        1)Gender :- data has 81% Male
+        2)Married :- 65% Applicants are Married
+        3)Dependents :-  57% of Applicants do not have any dependents, 
+                        10% have 1 ,another 10% have 2 dependents
+        4)Education :- 80% of the Applicants are Graduates
+        5)Self_Employed :- just 15%
+        6)Property_Area :- Almost no bias
+        7)Loan_Status :- 69% of the Applicants have got their loan sanctioned
+
+Bivariate Analysis :-
+    
+    Categorical Vs Target:
+
+        1)Gender :- Nothing significant, plot shows that the final result is not biased based on gender
+        2)Self_Employed :- Nothing significant
+        3)Married :- Married Applicants MAY have 10% higher chance of getting loan
+        4)Graduate :- Same as Married 
+        5)Credit_History :- It seems people with credit history as 1 are more likely to get their loans approved (80%of them get loan approved).
+    
+    Continuous Vs Target:
+        1)Applicant & CoApplicant Income :- Even after looking at each quartile separately, Income doesn't seem to impact Loan_Status individually,
+                            which is quite counter intuitive
+
+                            But when we combine both we find that the ppl below a combined Income of 2800 are less likely to get loan
+        2)Loan_Amount_Term :- higher Loan_Amount_Term seems less likely to get loan
+                
