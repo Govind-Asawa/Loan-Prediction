@@ -41,12 +41,12 @@ Univariate Analysis :-
     
     Categorical :-
         
-        1)Gender :- data has 81% Male
-        2)Married :- 65% Applicants are Married
+        1)Gender :- data has 81% Male, (13 nulls)
+        2)Married :- 65% Applicants are Married, (3 nulls)
         3)Dependents :-  57% of Applicants do not have any dependents, 
-                        10% have 1 ,another 10% have 2 dependents
+                        10% have 1 ,another 10% have 2 dependents (15 nulls)
         4)Education :- 80% of the Applicants are Graduates
-        5)Self_Employed :- just 15%
+        5)Self_Employed :- just 15%, (32 nulls)
         6)Property_Area :- Almost no bias
         7)Loan_Status :- 69% of the Applicants have got their loan sanctioned
 
@@ -71,4 +71,20 @@ Iteration 1:
 
     Used all Categorical variables except - [Gender, Self_Employed, Education]
     ROC - AUC : 0.84
+    Precision - Recall curve: AUC :0.71
     applied basic Munging
+
+Iteration 2:
+    not much different from Iteration - 1
+    but just added a imputation to Credit_History based on 
+        -- TotalIncome (ApplicantIncome + CoapplicantIncome)
+        -- Dependents
+        -- Property_Area
+    
+    Also found that - ROC was a misleading statistic since it doesn't consider imbalance b/w the classes
+    instead 
+    Precision - Recall curve turned out to be a good measure
+        as it says how good are we classifying the minority class correctly
+
+    Finally --- The result:
+    It did not have a significant Impact but could lift accuracy from 0.777 to 0.78

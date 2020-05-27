@@ -30,7 +30,7 @@ def trainModel(train_data, cols_to_remove = ['Gender', 'Self_Employed', 'Educati
     """
     data_to_feed = helper(train_data, cols_to_remove + ['Loan_Status'])
 
-    data_to_feed['Loan_Status'] = data_to_feed.loc[:, 'Loan_Status'].map({'Y':1,'N':0}).astype('uint8')
+    data_to_feed['Loan_Status'] = data_to_feed.loc[:, 'Loan_Status'].map({'Y':0,'N':1}).astype('uint8')
 
     X = data_to_feed.drop(cols_to_remove + ['Loan_Status'],axis=1)
 
@@ -45,23 +45,24 @@ def trainModel(train_data, cols_to_remove = ['Gender', 'Self_Employed', 'Educati
 
 cols_to_remove = ['Gender', 'Self_Employed', 'Education']
 
-path = dataMunging.basicMunging("train.csv", "processed-train.csv", drop_id=True)
+# _ = dataMunging.basicMunging("train.csv", "processed-train.csv", drop_id=True, imputeCredit_History=True)
 
-data = pd.read_csv(path)
+data = pd.read_csv("processed-train.csv")
 # --------
 
 # train data ----
 log_reg, (X_val, y_val) = trainModel(data, cols_to_remove= cols_to_remove)
-# lr_prob = log_reg.predict_proba(X_val)[:,1]
+y_prob = log_reg.predict_proba(X_val)[:,1]
 # utils.drawROC(y_val, lr_prob)
-
+# utils.precisionRecall(y_val, y_prob)
+# print("Threshold: 0.4",utils.calConfusionMatrix(y_val, y_prob, threshold=0.4), sep="\n")
 # test data-----
 
-test_data = dataMunging.basicMunging("test.csv", drop_id = False)
+test_data = dataMunging.basicMunging("test.csv", drop_id = False, imputeCredit_History=True)
 test_data = helper(test_data, cols_to_remove + ['Loan_ID'])
 
 ids = test_data.loc[:,'Loan_ID']
 test_data.drop(cols_to_remove+['Loan_ID'], axis = 1, inplace = True)
 
 y_pred = log_reg.predict_proba(test_data)[:,1]
-utils.createSubmissionFile(ids, y_pred, "submission.csv", threshold=0.3)
+utils.createSubmissionFile(ids, y_pred, "submission2_reversed.csv", threshold=0.4)
