@@ -88,3 +88,8 @@ Iteration 2:
 
     Finally --- The result:
     It did not have a significant Impact but could lift accuracy from 0.777 to 0.78
+
+Iteration 3:
+    applied Decision Tree classifier
+    Seemed promising but pulled down my accuracy to 0.69 ( -_- )
+    
