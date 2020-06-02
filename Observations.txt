@@ -92,4 +92,8 @@ Iteration 2:
 Iteration 3:
     applied Decision Tree classifier
     Seemed promising but pulled down my accuracy to 0.69 ( -_- )
-    
+
+Iteration 4:
+    yet another try 
+    This time i implemented Logistic Regression from scratch with tweakable parameters such as
+    epochs, batchsize, lr_rate, optimizer etc., but the accuracy is still 0.78

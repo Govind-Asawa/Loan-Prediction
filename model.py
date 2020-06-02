@@ -72,6 +72,7 @@ def prepareTestData(cols_to_remove):
     test_data = dataMunging.basicMunging("test.csv", drop_id = False, imputeCredit_History=True)
     test_data = helper(test_data, cols_to_remove + ['Loan_ID'])
 
+    dataMunging.minMaxScaler(test_data, ['LoanAmount', 'Loan_Amount_Term'])
     ids = test_data.loc[:,'Loan_ID']
 
     return ids, test_data.drop(cols_to_remove+['Loan_ID'], axis = 1)
@@ -83,13 +84,26 @@ cols_to_remove = ['Gender', 'Self_Employed', 'Education']
 # _ = dataMunging.basicMunging("train.csv", "processed-train.csv", drop_id=True, imputeCredit_History=True)
 
 data = pd.read_csv("processed-train.csv")
-tree = trainDecisionTree(data, cols_to_remove = cols_to_remove)
+dataMunging.minMaxScaler(data, ['LoanAmount', 'Loan_Amount_Term'])
+
+# tree, (tree_val_X, tree_val_y) = trainDecisionTree(data, cols_to_remove = cols_to_remove, val_size=0.2)
+# tree_y_prob = tree.predict_proba(tree_val_X)[:,1]
+# print("Using Decision Tree: ",utils.calConfusionMatrix(tree_val_y, tree_y_prob), sep="\n")
+# utils.precisionRecall(tree_val_y, tree_y_prob)
+
+# log_reg, (lr_val_X, lr_val_y) = trainModel(data, cols_to_remove, val_size = 0.2)
+# lr_y_prob = log_reg.predict_proba(lr_val_X)[:,1]
+# print("\nUsing Logistic Regression: ",utils.calConfusionMatrix(lr_val_y, lr_y_prob), sep="\n")
+# utils.precisionRecall(lr_val_y, lr_y_prob)
+
 ids, test_data = prepareTestData(cols_to_remove)
+'''
+tree = trainDecisionTree(data, cols_to_remove=cols_to_remove)
 y_prob = tree.predict_proba(test_data)[:,1]
 utils.createSubmissionFile(ids, y_prob, "submission_dt.csv", threshold = 0.4)
-'''
 log_reg = trainModel(data, cols_to_remove = cols_to_remove)
-
+'''
+'''
 y_pred = log_reg.predict_proba(test_data)[:,1]
 utils.createSubmissionFile(ids, y_pred, "submission2_reversed.csv", threshold=0.4)
 '''

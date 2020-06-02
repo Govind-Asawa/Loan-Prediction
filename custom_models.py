@@ -32,9 +32,10 @@ class CustomLogisticRegression(object):
         return (1.0/(1+np.exp(-z)))
     
     def predict(self, x):
-         z = np.dot(self.coef_, x.T)
-         assert z.shape == (1, x.shape[0]), "Z is not what u expected"
-         return self.__sigmoid(z)
+        x = np.array(x)
+        z = np.dot(self.coef_, x.T)
+        assert z.shape == (1, x.shape[0]), "Z is not what u expected"
+        return self.__sigmoid(z)
     
     def __getBatches(self, X, y):
         
