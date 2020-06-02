@@ -75,6 +75,13 @@ def ImputeC_H(data, thresh = 0.5):
         axis = 1
     ), inplace = True )
 
+def minMaxScaler(data, cols):
+    """
+        scales numeric data
+    """
+    for col in cols:
+        data[col] = (data[col] - data[col].min())/(data[col].max() - data[col].min())
+
 def basicMunging(from_filepath, to_filepath=None, drop_id = False, imputeCredit_History = True):
     """
         performs basic data munging i.e.,

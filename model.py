@@ -22,7 +22,7 @@ def trainDecisionTree(data, cols_to_remove = ['Gender', 'Self_Employed', 'Educat
 
     train_X, train_y = data_to_feed.drop(cols_to_remove + ['Loan_Status'], axis = 1), data_to_feed.loc[:,'Loan_Status']
 
-    tree = DecisionTreeClassifier(criterion='gini', max_leaf_nodes=500, random_state=2, min_samples_split=25)
+    tree = DecisionTreeClassifier(criterion='gini', max_leaf_nodes=500, random_state=2, min_samples_split=0.05)
     
     if val_size:
         train_X, val_X, train_y, val_y = train_test_split(train_X, train_y, test_size = val_size, random_state = 1, shuffle = True)
@@ -33,7 +33,6 @@ def trainDecisionTree(data, cols_to_remove = ['Gender', 'Self_Employed', 'Educat
         return tree, (val_X, val_y)
     
     return tree
-
 
 def trainModel(train_data, cols_to_remove = ['Gender', 'Self_Employed', 'Education'], val_size = None):
     """
@@ -59,7 +58,7 @@ def trainModel(train_data, cols_to_remove = ['Gender', 'Self_Employed', 'Educati
     X_train, y_train = data_to_feed.drop(cols_to_remove + ['Loan_Status'],axis=1), data_to_feed.loc[:, 'Loan_Status']
     
     if val_size:
-        X_train, X_val, y_train, y_val = train_test_split(X, data_to_feed.loc[:,'Loan_Status'], random_state=0, test_size = val_size)
+        X_train, X_val, y_train, y_val = train_test_split(X_train, data_to_feed.loc[:,'Loan_Status'], random_state=0, test_size = val_size)
 
     log_reg = LogisticRegression()
     log_reg.fit(X_train, y_train)
@@ -76,7 +75,6 @@ def prepareTestData(cols_to_remove):
     ids = test_data.loc[:,'Loan_ID']
 
     return ids, test_data.drop(cols_to_remove+['Loan_ID'], axis = 1)
-
 
 # processing and reading --------
 
