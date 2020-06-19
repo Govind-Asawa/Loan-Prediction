@@ -7,7 +7,7 @@ from utils import calConfusionMatrix, precisionRecall, createSubmissionFile
 from sklearn.linear_model import LogisticRegression
 from dataMunging import minMaxScaler, basicMunging
 
-# _ = basicMunging("train.csv", "processed-train.csv", drop_id=True, imputeCredit_History=True)
+_ = basicMunging("train.csv", "processed-train.csv", drop_id=True, imputeCredit_History=True)
 
 data = pd.read_csv("processed-train.csv")
 data = helper(data, ['Gender', 'Self_Employed', 'Education']+['Loan_Status'])
@@ -17,10 +17,13 @@ X, y = data.drop(['Gender', 'Self_Employed', 'Education']+['Loan_Status'], axis 
 
 minMaxScaler(X, ['LoanAmount', 'Loan_Amount_Term'])
 
-epochs, batch_size, lr_rate, optimizer, weights = 80, 64, 0.09, "rms", [1.5, 1]
+epochs, batch_size, lr_rate, optimizer, weights = 500, 72, 0.05, "rms", [1.8, 1]
 
 log_reg = CustomLogisticRegression(epochs=epochs, batch_size=batch_size, lr_rate=lr_rate, optimizer=optimizer, weights=weights)
 log_reg.fit(X, y, verbose = 2)
+y_pred = log_reg.predict(X)[0]
+print(calConfusionMatrix(y, y_pred))
+precisionRecall(y, y_pred)
 
 test_data = pd.read_csv("test.csv")
 test_data = basicMunging("test.csv", drop_id=False, imputeCredit_History=True)
@@ -30,4 +33,4 @@ test_data.drop(['Gender', 'Self_Employed', 'Education', 'Loan_ID'], axis=1, inpl
 minMaxScaler(test_data, ['LoanAmount', 'Loan_Amount_Term'])
 
 y_prob = log_reg.predict(test_data)[0]
-createSubmissionFile(ids, y_prob, "custom_model.csv", threshold=0.5)
+createSubmissionFile(ids, y_prob, "custom_model.csv", threshold=0.4)

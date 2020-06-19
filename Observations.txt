@@ -97,3 +97,11 @@ Iteration 4:
     yet another try 
     This time i implemented Logistic Regression from scratch with tweakable parameters such as
     epochs, batchsize, lr_rate, optimizer etc., but the accuracy is still 0.78
+
+Iteration n:
+    tried many different complex approaches which seemed to be promissing but failed the test data
+    some of the models i tried were
+        RandomForest, Bagging, AdaBoost, GradientBoosting, Voting with different parameters but it only increased the variance
+        by lowering the bias which simply is , it was overfitting
+
+        also tried IterativeImputation, SMOTE over_sampling strategy, RandomUnderSampling but nothing seemed to work

@@ -37,6 +37,16 @@ class CustomLogisticRegression(object):
         assert z.shape == (1, x.shape[0]), "Z is not what u expected"
         return self.__sigmoid(z)
     
+    def score(self, X, y):
+        """
+            calculated mean accuracy by applying self.predict(X)
+            and comparing with y
+        """
+        y = np.array(y)
+        y_pred = self.predict(X)[0]
+        y_pred = y_pred >= 0.5
+        return(y == y_pred).mean()
+
     def __getBatches(self, X, y):
         
         idxs = list(range(X.shape[0]))
@@ -102,7 +112,7 @@ class CustomLogisticRegression(object):
         
         return np.mean( -y_true*np.log(y_pred) - (1-y_true)*np.log(1-y_pred))
 
-    def fit(self, X, y, verbose = 1):
+    def fit(self, X, y, verbose = 2):
         """
             X - 2D array or a DataFrame of features,
                 each row being a sample observation
